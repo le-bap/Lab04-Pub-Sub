@@ -1,0 +1,63 @@
+services:
+
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cc7261:pyzmq
+    container_name: proxy
+    volumes:
+      - ./proxy.py:/app/main.py
+    ports:
+      - "5555:5555"
+      - "5556:5556"
+
+  publisher:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cc7261:pyzmq
+    volumes:
+      - ./publisher.py:/app/main.py
+    depends_on:
+      - proxy
+
+  publisher2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cc7261:pyzmq
+    volumes:
+      - ./publisher2.py:/app/main.py
+    depends_on:
+      - proxy
+
+  subscriber:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cc7261:pyzmq
+    volumes:
+      - ./subscriber.py:/app/main.py
+    depends_on:
+      - proxy
+
+  subscriber2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cc7261:pyzmq
+    volumes:
+      - ./subscriber2.py:/app/main.py
+    depends_on:
+      - proxy
+
+  subscriber3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cc7261:pyzmq
+    volumes:
+      - ./subscriber3.py:/app/main.py
+    depends_on:
+      - proxy
